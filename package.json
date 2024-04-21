@@ -9,10 +9,30 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/joy": "^5.0.0-beta.32",
+    "@mui/material": "^5.15.15",
+    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-community/datetimepicker": "^7.7.0",
+    "@react-native-picker/picker": "^2.7.5",
+    "@react-navigation/bottom-tabs": "^6.5.20",
+    "@react-navigation/drawer": "^6.6.15",
+    "axios": "^1.6.8",
+    "chart.js": "^4.4.2",
     "expo": "~50.0.14",
     "expo-status-bar": "~1.11.1",
+    "firebase": "^10.11.0",
+    "moment": "^2.30.1",
     "react": "18.2.0",
-    "react-native": "0.73.6"
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^6.9.0",
+    "react-native": "0.73.6",
+    "react-native-gesture-handler": "^2.14.0",
+    "react-native-gifted-chat": "^2.4.0",
+    "react-native-reanimated": "^3.6.2",
+    "react-native-webview": "^13.8.6",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

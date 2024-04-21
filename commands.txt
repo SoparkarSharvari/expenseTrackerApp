@@ -1,0 +1,34 @@
+// create 
+npx create-expo-app AwesomeProject
+
+//path to project 
+cd AwesomeProject
+
+//start project
+npx expo start
+
+//Download the Expo Go App from playStore
+//after starting the project 
+//Scan the QR code above with Expo Go (Android) or the Camera app (iOS)
+
+//firebase 
+npm install firebase
+npm install @react-native-async-storage/async-storage
+
+//style
+npm install styled-components
+
+npm install chart.js
+npm install react-chartjs-2
+npm install moment
+
+npm install react-datepicker
+
+
+//MARTERIAL UI
+npm install @mui/material
+npm install @mui/icons-material
+npm install @emotion/styled
+
+
+npm install @react-native-community/datetimepicker
