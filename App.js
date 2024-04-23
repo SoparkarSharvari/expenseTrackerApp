@@ -7,9 +7,8 @@ import LoginPage from './components/LoginPage'; // Import the LoginPage componen
 
 export default function App() {
   return (
- <View style={styles.container1}>
+    <View style={styles.container1}>
        <LoginPage /> 
     </View>
-    
   );
 }

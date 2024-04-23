@@ -8,7 +8,7 @@ import { Text, View } from 'react-native';
 function Expense() {
     const [text, setText] = useState('');
     const [currency, setCurrency] = useState('');
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [multilineText, setMultilineText] = useState('');
@@ -19,53 +19,62 @@ function Expense() {
       setDate(currentDate);
     };
   
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setText}
-          value={text}
-          placeholder="Enter text"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setCurrency}
-          value={currency}
-          placeholder="Enter currency"
-          keyboardType="numeric"
-        />
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-          <Text style={{ marginRight: 10 }}>Select date:</Text>
-          <Button title="Pick Date" onPress={() => setShowDatePicker(true)} />
-          {showDatePicker && (
-            <DatePicker
-              testID="datePicker"
-              value={date}
-              mode="date"
-              display="default"
-              onChange={handleDateChange}
-            />
-          )}
-        </View>
-        <Picker
-          selectedValue={selectedOption}
-          style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue) => setSelectedOption(itemValue)}
-        >
-          <Picker.Item label="Option 1" value="option1" />
-          <Picker.Item label="Option 2" value="option2" />
-          <Picker.Item label="Option 3" value="option3" />
-        </Picker>
-        <TextInput
-          style={[styles.input, { height: 100 }]}
-          onChangeText={setMultilineText}
-          value={multilineText}
-          placeholder="Enter multiline text"
-          multiline
-        />
-        <Button title="Submit" onPress={() => console.log('Form submitted')} />
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}> 
+         <Text style={{ marginRight: 200, width: 100 }}>Expense title :</Text>
+          <TextInput
+            style={styles.inputbox}
+            onChangeText={(value)=>setText(value)}
+            value={text}
+            placeholder="Expense title "
+          />
+          <Text style={{ marginRight: 190, width: 'max-content' }}>Expense Amount :</Text>
+          <TextInput
+            style={styles.inputbox}
+            onChangeText={setCurrency}
+            value={currency}
+            placeholder="Enter currency"
+            keyboardType="numeric"
+          />
+       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+        <Text style={{ marginRight: 10 }}>Select date: {date ? date.toLocaleDateString() : ''}</Text>
+        <Button title="Pick Date" onPress={() => setShowDatePicker(true)} />
+        {showDatePicker && (
+          <DatePicker
+            testID="datePicker"
+            value={date || new Date()}
+            mode="date"
+            display="default"
+            onChange={handleDateChange}
+          />
+        )}
       </View>
-    );
-  };
+      <Text style={{ marginRight: 200, width: 'auto' }}>Select a Option :</Text>
+      <View style={{ borderColor: '#ddd', borderRadius: 4,height: 40, width: 300 ,borderWidth: 1,paddingBottom:49 }}>
+          <Picker
+            selectedValue={selectedOption}
+            onValueChange={(itemValue) => setSelectedOption(itemValue)}
+          >
+            <Picker.Item label="Option 1" value="option1" />
+            <Picker.Item label="Option 2" value="option2" />
+            <Picker.Item label="Option 3" value="option3" />
+          </Picker>
+      </View>
+      <View style={{ marginVertical: 10 }} />
+          <Text style={{ marginRight: 200, width: 'auto' }}>Add a reference :</Text>
+          <TextInput
+            style={[styles.inputbox, { height: 70 }]}
+            onChangeText={setMultilineText}
+            value={multilineText}
+            placeholder="Enter expense reference"
+            multiline
+          />
+          <View style={{ borderRadius: 19, overflow: 'hidden' }}>
+            <Button color='#ff338d' title="+   Add Expense" onPress={() => console.log('Form submitted')} />
+          </View>
+  
+        </View>
+      );
+    };
 
   export default Expense;

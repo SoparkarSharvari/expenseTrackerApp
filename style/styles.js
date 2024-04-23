@@ -53,4 +53,16 @@ export const styles = StyleSheet.create({
       textAlign: 'center',
       marginBottom: 20,
     },
+    ProfileButton:{
+      margin:30
+    },
+    inputbox:{
+      height: 40,
+      width:300,
+      borderColor: '#ddd',
+      borderWidth: 1,
+      marginBottom: 16,
+      padding: 8,
+      borderRadius: 4,
+    },
   });
