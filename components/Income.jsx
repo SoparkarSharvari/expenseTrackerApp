@@ -4,7 +4,7 @@ import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import React, {useState} from 'react';
 import { Text, View } from 'react-native';
-import database from '@react-native-firebase/database';
+import axios from 'axios';
 
 function Income() {
     const [text, setText] = useState('');
@@ -13,24 +13,34 @@ function Income() {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [multilineText, setMultilineText] = useState('');
-  
+
+    // const [login,setLogin]=useState({text:'',currency:'',date:'',selectedOption:'',multilineText:''})
+    
     const handleDateChange = (event, selectedDate) => {
       const currentDate = selectedDate || date;
       setShowDatePicker(false);
       setDate(currentDate);
     };
-    const handleIncomeData = async() =>{
-      // try {
-      //   const response = await database('https://expensetracker-b4707-default-rtdb.firebaseio.com').ref('user/1').set({
-      //     value: text,
-      //   });
-  
-      //   console.log(response);
-      // } catch (err) {
-      //   console.log(err);
-      // }
-    };
-    
+    const handleIncomeData=()=>{
+      const IncomeData ={
+        IncomeTitle:text,
+        IncomeAmount:currency, 
+        date:date,
+        IncomeType:selectedOption,
+        IncomeRef :multilineText
+      };
+        
+      axios.post("http://192.168.1.4:5002/income",IncomeData)
+            .then(res=>{console.log(res.data)
+              setText('');
+              setCurrency('');
+              setDate(null);
+              setSelectedOption('');
+              setMultilineText('')
+            })
+            .catch(e=>console.log(e))
+      
+    }
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}> 
        <Text style={{ marginRight: 200, width: 100 }}>Income title :</Text>

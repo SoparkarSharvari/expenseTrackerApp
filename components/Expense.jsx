@@ -4,6 +4,7 @@ import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import React, {useState} from 'react';
 import { Text, View } from 'react-native';
+import axios from 'axios';
 
 function Expense() {
     const [text, setText] = useState('');
@@ -18,7 +19,26 @@ function Expense() {
       setShowDatePicker(false);
       setDate(currentDate);
     };
-  
+
+    const handleExpenseData=()=>{
+      const ExpenseData ={
+        ExpenseTitle:text,
+        ExpenseAmount:currency, 
+        date:date,
+        ExpenseType:selectedOption,
+        ExpenseRef :multilineText
+      };
+        
+      axios.post("http://192.168.1.4:5002/expense",ExpenseData)
+            .then(res=>{console.log(res.data)
+              setText('');
+              setCurrency('');
+              setDate(null);
+              setSelectedOption('');
+              setMultilineText('')
+            })
+            .catch(e=>console.log(e))
+    }
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}> 
          <Text style={{ marginRight: 200, width: 100 }}>Expense title :</Text>
@@ -70,7 +90,7 @@ function Expense() {
             multiline
           />
           <View style={{ borderRadius: 19, overflow: 'hidden' }}>
-            <Button color='#ff338d' title="+   Add Expense" onPress={() => console.log('Form submitted')} />
+            <Button color='#ff338d' title="+   Add Expense" onPress={() => handleExpenseData()} />
           </View>
   
         </View>
