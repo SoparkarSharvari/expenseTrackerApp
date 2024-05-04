@@ -21,7 +21,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
         <Drawer.Screen name="Profile" component={Profile}
             initialParams={{ user: user, handleAuthentication: handleAuthentication }}
             options={{ headerShown: false }}/>
-        <Drawer.Screen name="DetailedView" component={Profile}
+        <Drawer.Screen name="DetailedView" component={DetailedView}
             initialParams={{ user: user, handleAuthentication: handleAuthentication }}
             options={{ headerShown: false }}/>
         <Drawer.Screen name="Notifications" component={NotificationsScreen} />

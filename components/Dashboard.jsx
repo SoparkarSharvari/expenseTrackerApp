@@ -1,28 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View , StyleSheet, Image, FlatList} from 'react-native';
-import {Button} from 'react-native-paper';
+import { Text, View , StyleSheet, Image, FlatList,ScrollView ,Button as ReloadButton } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { Dimensions } from "react-native";
 import axios from 'axios';
-import {LineChart,BarChart,PieChart,ProgressChart,ContributionGraph,StackedBarChart} from "react-native-chart-kit";
-
-const chartConfig = {
-    backgroundGradientFrom: "#0E1726",
-    backgroundGradientFromOpacity: 1,
-    backgroundGradientTo: "#283E51",
-    backgroundGradientToOpacity: 1,
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    strokeWidth: 2,
-    barPercentage: 0.6,
-    useShadowColorFromDataset: false
-};
-const screenWidth = Dimensions.get("window").width;
+import InExMonthly from './InExMonthly';
 
 function Dashboard() {
   const [totalIncome, setTotalIncome] = useState('');
   const [totalExpense, setTotalExpense] = useState('');
+
   async function getTotalIncome(){
-    axios.get("http://192.168.1.4:5002/totalIncome")
+    axios.get("http://192.168.1.3:5002/totalIncome")
           .then(res=>{
             console.log(res.data.totalIncome);
             setTotalIncome(res.data.totalIncome)
@@ -31,7 +18,7 @@ function Dashboard() {
   }
 
   async function getTotalExpense(){
-    axios.get("http://192.168.1.4:5002/totalExpense")
+    axios.get("http://192.168.1.3:5002/totalExpense")
           .then(res=>{
             console.log(res.data.totalExpense);
             setTotalExpense(res.data.totalExpense)
@@ -44,6 +31,11 @@ function Dashboard() {
       getTotalExpense();
     }, [])
   );
+  const reloadAllComponents = () => {
+    getTotalIncome();
+    getTotalExpense();
+  };
+
   const UserCard=({data})=>(
     <View style={styles.card}>
       <View style={styles.cardDetails}>
@@ -53,12 +45,14 @@ function Dashboard() {
     </View>
   )
     return (
-    <>
+    <ScrollView>
       <View style={styles.container}>
         <UserCard data={{ name: 'Income', total: totalIncome ,sty:'positive'}} />
         <UserCard data={{ name: 'Expense', total: totalExpense ,sty:'negative'}} />
+        <ReloadButton title="Reload All" onPress={reloadAllComponents} />
+        <InExMonthly/>
       </View>
-    </>
+    </ScrollView>
     );
   };
   const styles = StyleSheet.create({

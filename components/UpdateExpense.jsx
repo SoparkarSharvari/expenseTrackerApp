@@ -6,7 +6,8 @@ import React, {useState} from 'react';
 import { Text, View } from 'react-native';
 import axios from 'axios';
 
-function Expense() {
+function UpdateExpense({route}) {
+    const { id } = route.params; 
     const [text, setText] = useState('');
     const [currency, setCurrency] = useState('');
     const [date, setDate] = useState(null);
@@ -20,7 +21,7 @@ function Expense() {
       setDate(currentDate);
     };
 
-    const handleExpenseData=()=>{
+    const handleUpdateExpenseData=()=>{
       const ExpenseData ={
         ExpenseTitle:text,
         ExpenseAmount:currency, 
@@ -90,11 +91,11 @@ function Expense() {
             multiline
           />
           <View style={{ borderRadius: 19, overflow: 'hidden' }}>
-            <Button color='#ff338d' title="+   Add Expense" onPress={() => handleExpenseData()} />
+            <Button color='#ff338d' title="+   Add Expense" onPress={() => handleUpdateExpenseData()} />
           </View>
   
         </View>
       );
     };
 
-  export default Expense;
+  export default UpdateExpense;

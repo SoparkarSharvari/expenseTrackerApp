@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView,View } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
 import { app } from '../firebase/firebaseConfig'; // Import Firebase initialization
 import AuthScreen from '../screens/AuthScreen';
@@ -46,24 +46,24 @@ const LoginPage = () => {
     };
   
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        {user ? (
-          // Show user's email if user is authenticated
-          <AuthenticatedScreen user={user} handleAuthentication={handleAuthentication} />
-        ) : (
-          // Show sign-in or sign-up form if user is not authenticated
-          <AuthScreen
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-            isLogin={isLogin}
-            setIsLogin={setIsLogin}
-            handleAuthentication={handleAuthentication}
-          />
-        )}
-      </ScrollView>
-    );
-}
-
+      <>
+        <View style={styles.container}>
+          {user ? (
+            // Show user's email if user is authenticated
+            <AuthenticatedScreen user={user} handleAuthentication={handleAuthentication} />
+          ) : (
+            // Show sign-in or sign-up form if user is not authenticated
+            <AuthScreen
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              isLogin={isLogin}
+              setIsLogin={setIsLogin}
+              handleAuthentication={handleAuthentication}
+            />
+          )}
+        </View>
+      </>
+    )};
 export default LoginPage;

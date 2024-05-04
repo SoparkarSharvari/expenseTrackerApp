@@ -30,7 +30,7 @@ function Income() {
         IncomeRef :multilineText
       };
         
-      axios.post("http://192.168.1.4:5002/income",IncomeData)
+      axios.post("http://192.168.1.3:5002/income",IncomeData)
             .then(res=>{console.log(res.data)
               setText('');
               setCurrency('');

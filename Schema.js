@@ -24,7 +24,7 @@ const incomeDetails=new mongoose.Schema({
     }
 },{ timestamps: true })
 
-const collection = mongoose.model("collection",incomeDetails)
+const collection= mongoose.model("collection",incomeDetails)
 
 //Expense schema
 const ExpenseDetails=new mongoose.Schema({

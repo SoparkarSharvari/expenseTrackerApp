@@ -112,7 +112,6 @@ app.get('/income-details-by-month', async (req, res) => {
           }
         }
       ]);
-  
       // Prepare data for the chart
       const labels = [
         "January", 
@@ -147,7 +146,6 @@ app.get('/income-details-by-month', async (req, res) => {
   });
 
 //monthly expense
-
   app.get('/expense-details-by-month', async (req, res) => {
     try {
       // Aggregate income details by month
@@ -191,3 +189,138 @@ app.get('/income-details-by-month', async (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     }
   });
+
+  app.get('/monthlyIncome', async (req, res) => {
+    try {
+      const currentDate = new Date();
+      const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  
+      const incomes = await IncomeDet.find({
+        date: {
+          $gte: startOfMonth,
+          $lte: endOfMonth,
+        },
+      });
+  
+      res.json(incomes);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+  
+  app.get('/monthlyExpense', async (req, res) => {
+    try {
+      const currentDate = new Date();
+      const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  
+      const incomes = await ExpenseDet.find({
+        date: {
+          $gte: startOfMonth,
+          $lte: endOfMonth,
+        },
+      });
+  
+      res.json(incomes);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+  
+  //delete
+
+  app.delete('/monthlyIncome/:id', async (req, res) => {
+    try {
+      const incomeId = req.params.id;
+  
+      // Check if the income exists
+      const existingIncome = await IncomeDet.findById(incomeId);
+      if (!existingIncome) {
+        return res.status(404).json({ message: 'Income not found' });
+      }
+  
+      // Delete the income
+      await IncomeDet.findByIdAndDelete(incomeId);
+  
+      res.json({ message: 'Income deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+
+  app.delete('/monthlyExpense/:id', async (req, res) => {
+    try {
+      const expenseId = req.params.id;
+  
+      // Check if the income exists
+      const existingIncome = await ExpenseDet.findById(expenseId);
+      if (!existingIncome) {
+        return res.status(404).json({ message: 'Income not found' });
+      }
+  
+      // Delete the income
+      await ExpenseDet.findByIdAndDelete(expenseId);
+  
+      res.json({ message: 'Expense deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+
+  //update
+
+  app.put('/income/:id', async (req, res) => {
+    const { id } = req.params;
+    const { IncomeTitle, IncomeAmount, IncomeType, IncomeRef } = req.body;
+  
+    try {
+      // Check if the income document exists
+      const existingIncome = await IncomeDet.findById(id);
+      if (!existingIncome) {
+        return res.status(404).json({ message: 'Income not found' });
+      }
+  
+      // Update the income document fields
+      existingIncome.IncomeTitle = IncomeTitle;
+      existingIncome.IncomeAmount = IncomeAmount;
+      existingIncome.IncomeType = IncomeType;
+      existingIncome.IncomeRef = IncomeRef;
+  
+      // Save the updated document
+      const updatedIncome = await existingIncome.save();
+      res.status(200).json(updatedIncome);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+
+  app.get('/income/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      // Find income data by ID in the database
+      const incomeData = await IncomeDet.findById(id);
+  
+      if (!incomeData) {
+        // If no income data found, return 404 Not Found status
+        return res.status(404).json({ message: 'Income data not found' });
+      }
+  
+      // Check if date field exists and is valid
+      const formattedDate = incomeData.date ? incomeData.date.toLocaleDateString() : 'N/A';
+  
+      // If income data found, return it
+      res.status(200).json({ ...incomeData.toJSON(), date: formattedDate });
+    } catch (error) {
+      // If an error occurs, return 500 Internal Server Error status
+      console.error('Error fetching income data:', error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+  
