@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 
 function NavBar() {
   return (
-    <Tab.Navigator >
+    <Tab.Navigator  keyboardHidesTabBar={true}>
       <Tab.Screen 
         name="Dashboard" component={Dashboard} options={{
         tabBarLabel: 'Home',

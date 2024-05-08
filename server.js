@@ -324,3 +324,61 @@ app.get('/income-details-by-month', async (req, res) => {
     }
   });
   
+  app.get('/expense/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      // Find income data by ID in the database
+      const expenseData = await ExpenseDet.findById(id);
+  
+      if (!expenseData) {
+        // If no income data found, return 404 Not Found status
+        return res.status(404).json({ message: 'Income data not found' });
+      }
+  
+      // Check if date field exists and is valid
+      const formattedDate = expenseData.date ? expenseData.date.toLocaleDateString() : 'N/A';
+  
+      // If income data found, return it
+      res.status(200).json({ ...expenseData.toJSON(), date: formattedDate });
+    } catch (error) {
+      // If an error occurs, return 500 Internal Server Error status
+      console.error('Error fetching income data:', error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
+
+
+app.put('/expense/:id', async (req, res) => {
+    const { id } = req.params;
+    const { ExpenseTitle, ExpenseAmount, date, ExpenseType, ExpenseRef } = req.body;
+
+    try {
+        const existingExpense = await ExpenseDet.findById(id);
+        if (!existingExpense) {
+            return res.status(404).json({ message: 'Expense not found' });
+        }
+
+        existingExpense.ExpenseTitle = ExpenseTitle;
+        existingExpense.ExpenseAmount = ExpenseAmount;
+        existingExpense.date = date;
+        existingExpense.ExpenseType = ExpenseType;
+        existingExpense.ExpenseRef = ExpenseRef;
+
+        const updatedExpense = await existingExpense.save();
+        res.status(200).json(updatedExpense);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+
+app.get("/income", async (req, res) => {
+  try {
+    const incomeData = await IncomeDet.find();
+    res.json(incomeData);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})

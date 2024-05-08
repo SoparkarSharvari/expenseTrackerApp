@@ -49,10 +49,8 @@ const LoginPage = () => {
       <>
         <View style={styles.container}>
           {user ? (
-            // Show user's email if user is authenticated
             <AuthenticatedScreen user={user} handleAuthentication={handleAuthentication} />
           ) : (
-            // Show sign-in or sign-up form if user is not authenticated
             <AuthScreen
               email={email}
               setEmail={setEmail}

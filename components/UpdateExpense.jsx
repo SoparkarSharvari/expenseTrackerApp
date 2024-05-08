@@ -2,70 +2,89 @@ import {TextInput, Button} from 'react-native';
 import { styles } from '../style/styles';
 import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { Text, View } from 'react-native';
 import axios from 'axios';
 
 function UpdateExpense({route}) {
     const { id } = route.params; 
-    const [text, setText] = useState('');
-    const [currency, setCurrency] = useState('');
-    const [date, setDate] = useState(null);
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('');
-    const [multilineText, setMultilineText] = useState('');
-  
-    const handleDateChange = (event, selectedDate) => {
-      const currentDate = selectedDate || date;
-      setShowDatePicker(false);
-      setDate(currentDate);
-    };
 
-    const handleUpdateExpenseData=()=>{
-      const ExpenseData ={
-        ExpenseTitle:text,
-        ExpenseAmount:currency, 
-        date:date,
-        ExpenseType:selectedOption,
-        ExpenseRef :multilineText
+    const [ExpenseData, setExpenseData] = useState({
+        ExpenseTitle:'',
+        ExpenseAmount:'', 
+        date:new Date(),
+        ExpenseType:'',
+        ExpenseRef :''
+      });
+      const [showDatePicker, setShowDatePicker] = useState(false);
+    
+      useEffect(() => {
+        // Fetch existing income data based on the provided id
+        const fetchIncomeData = async () => {
+          try {
+            const response = await axios.get(`http://192.168.1.3:5002/expense/${id}`);
+            setExpenseData(response.data);
+            console.log(response.data)
+          } catch (error) {
+            console.error('Error fetching income data:', error);
+          }
+        };
+        fetchIncomeData();
+      }, [id]);
+    
+      const handleDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate || ExpenseData.date;
+        setShowDatePicker(false);
+        setExpenseData({ ...ExpenseData, date: new Date(currentDate) });
       };
-        
-      axios.post("http://192.168.1.3:5002/expense",ExpenseData)
-            .then(res=>{console.log(res.data)
-              setText('');
-              setCurrency('');
-              setDate(null);
-              setSelectedOption('');
-              setMultilineText('')
-            })
-            .catch(e=>console.log(e))
-    }
+      
+
+
+  const  handleUpdateExpenseData = () => {
+    // Send PUT request to update income data
+    axios.put(`http://192.168.1.3:5002/expense/${id}`, {
+        ...ExpenseData,
+        ExpenseAmount: parseInt(ExpenseData.ExpenseAmount) // Parse to number
+      })
+      .then(res => {
+        console.log(res.data);
+        // Reset input fields
+        setExpenseData({
+            ExpenseTitle:'',
+            ExpenseAmount:'', 
+            date:'',
+            ExpenseType:'',
+            ExpenseRef :''
+        });
+      })
+      .catch(e => console.log(e));
+  };
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%' }}> 
          <Text style={{ marginRight: 200, width: 100 }}>Expense title :</Text>
           <TextInput
             style={styles.inputbox}
-            onChangeText={(value)=>setText(value)}
-            value={text}
+            onChangeText={value => setExpenseData({ ...ExpenseData, ExpenseTitle: value })}
+            value={ExpenseData.ExpenseTitle}
             placeholder="Expense title "
           />
           <Text style={{ marginRight: 190, width: 'max-content' }}>Expense Amount :</Text>
           <TextInput
             style={styles.inputbox}
-            onChangeText={setCurrency}
-            value={currency}
+            onChangeText={value => setExpenseData({ ...ExpenseData, ExpenseAmount: value })}
+            value={ExpenseData.ExpenseAmount.toString()}
             placeholder="Enter currency"
             keyboardType="numeric"
           />
        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-        <Text style={{ marginRight: 10 }}>Select date: {date ? date.toLocaleDateString() : ''}</Text>
+        <Text style={{ marginRight: 10 }}>Select date: {ExpenseData.date.toLocaleString()}</Text>
         <Button title="Pick Date" onPress={() => setShowDatePicker(true)} />
         {showDatePicker && (
           <DatePicker
             testID="datePicker"
-            value={date || new Date()}
+            value={ new Date()}
             mode="date"
-            display="default"
+            display={ExpenseData.date}
             onChange={handleDateChange}
           />
         )}
@@ -73,8 +92,8 @@ function UpdateExpense({route}) {
       <Text style={{ marginRight: 200, width: 'auto' }}>Select a Option :</Text>
       <View style={{ borderColor: '#ddd', borderRadius: 4,height: 40, width: 300 ,borderWidth: 1,paddingBottom:49 }}>
           <Picker
-            selectedValue={selectedOption}
-            onValueChange={(itemValue) => setSelectedOption(itemValue)}
+           selectedValue={ExpenseData.ExpenseType}
+           onValueChange={itemValue => setExpenseData({ ...ExpenseData, ExpenseType: itemValue })}
           >
             <Picker.Item label="Option 1" value="option1" />
             <Picker.Item label="Option 2" value="option2" />
@@ -85,8 +104,8 @@ function UpdateExpense({route}) {
           <Text style={{ marginRight: 200, width: 'auto' }}>Add a reference :</Text>
           <TextInput
             style={[styles.inputbox, { height: 70 }]}
-            onChangeText={setMultilineText}
-            value={multilineText}
+            onChangeText={value => setExpenseData({ ...ExpenseData, ExpenseRef: value })}
+            value={ExpenseData.ExpenseRef}
             placeholder="Enter expense reference"
             multiline
           />

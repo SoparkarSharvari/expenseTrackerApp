@@ -17,14 +17,32 @@ const chartConfig = {
 };
 const screenWidth = Dimensions.get("window").width;
 
+// const aggregateIncomeByType = (incomeData) => {
+//   const incomeByType = {};
+//   incomeData.forEach((item) => {
+//     if (incomeByType[item.IncomeType]) {
+//       incomeByType[item.IncomeType] += item.IncomeAmount;
+//     } else {
+//       incomeByType[item.IncomeType] = item.IncomeAmount;
+//     }
+//   });
+//   return Object.keys(incomeByType).map((type) => ({
+//     name: type,
+//     amount: incomeByType[type],
+//   }));
+// };
+
 function DetailedView({ navigation,route}) {
     const { user, handleAuthentication } = route.params;
     const [Incomedata, setIncomeData] = useState(null);
     const [Expensedata, setExpenseData] = useState(null);
+    const [IncomeDataPieChart, setIncomeDataPieChart] = useState(null);
+
     useFocusEffect(
         React.useCallback(() => {
            fetchData();
            fetchData2();
+           fetchData3();
         }, [])
       );
     const fetchData = async () => {
@@ -45,6 +63,16 @@ function DetailedView({ navigation,route}) {
           console.log("Error fetching data:", error);
         }
       };
+    const fetchData3 = async () =>{
+      try{
+        const res = await axios.get("http://192.168.1.3:5002/income");
+        // const aggregatedIncomeData = aggregateIncomeByType(res.data);
+          setIncomeDataPieChart(res.data);
+          console.log(res.data)
+      }catch(error){
+        console.log("Error fetching data:", error);
+      }
+    };
     return (
         <ScrollView> 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 5, marginTop: 60 ,scrollable:true}}>
@@ -72,6 +100,17 @@ function DetailedView({ navigation,route}) {
             />
           )}
         </View> 
+        <PieChart
+  data={IncomeDataPieChart}
+  width={screenWidth}
+  height={220}
+  chartConfig={chartConfig}
+  accessor="IncomeType"
+  backgroundColor={"transparent"}
+  paddingLeft={"15"}
+  center={[10, 50]}
+  absolute
+/>
         </ScrollView> 
       )
     }

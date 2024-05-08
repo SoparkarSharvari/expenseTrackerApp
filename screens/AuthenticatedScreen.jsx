@@ -6,7 +6,6 @@ import TopNavBar from '../components/TopNavBar';
 
 const AuthenticatedScreen = ({ user, handleAuthentication }) => {
     return (
-
             <View style={styles.container1}>
                 <TopNavBar user={user} handleAuthentication={handleAuthentication}/>
             </View>

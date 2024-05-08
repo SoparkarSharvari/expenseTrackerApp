@@ -4,6 +4,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import InExMonthly from './InExMonthly';
 
+
+
 function Dashboard() {
   const [totalIncome, setTotalIncome] = useState('');
   const [totalExpense, setTotalExpense] = useState('');

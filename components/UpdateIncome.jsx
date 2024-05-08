@@ -52,7 +52,7 @@ function UpdateIncome({ route }) {
         setIncomeData({
           IncomeTitle: '',
           IncomeAmount: '',
-          date: new Date(),
+          date: '',
           IncomeType: '',
           IncomeRef: '',
         });
@@ -78,7 +78,7 @@ function UpdateIncome({ route }) {
         keyboardType="numeric"
       />
     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-    <Text style={{ marginRight: 10 }}>Select date:</Text>
+    <Text style={{ marginRight: 10 }}>Select date: {incomeData.date.toLocaleString()}</Text>
     <Button title="Pick Date" onPress={() => setShowDatePicker(true)} />
     {showDatePicker && (
         <DatePicker
