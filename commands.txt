@@ -25,6 +25,7 @@ npm install moment
 
 npm install react-datepicker
 
+npm install react-native-linear-gradient
 
 //MARTERIAL UI
 npm install @mui/material

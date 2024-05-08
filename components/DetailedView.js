@@ -16,22 +16,6 @@ const chartConfig = {
     useShadowColorFromDataset: false
 };
 const screenWidth = Dimensions.get("window").width;
-
-// const aggregateIncomeByType = (incomeData) => {
-//   const incomeByType = {};
-//   incomeData.forEach((item) => {
-//     if (incomeByType[item.IncomeType]) {
-//       incomeByType[item.IncomeType] += item.IncomeAmount;
-//     } else {
-//       incomeByType[item.IncomeType] = item.IncomeAmount;
-//     }
-//   });
-//   return Object.keys(incomeByType).map((type) => ({
-//     name: type,
-//     amount: incomeByType[type],
-//   }));
-// };
-
 function DetailedView({ navigation,route}) {
     const { user, handleAuthentication } = route.params;
     const [Incomedata, setIncomeData] = useState(null);
@@ -73,6 +57,7 @@ function DetailedView({ navigation,route}) {
         console.log("Error fetching data:", error);
       }
     };
+
     return (
         <ScrollView> 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 5, marginTop: 60 ,scrollable:true}}>
@@ -100,17 +85,6 @@ function DetailedView({ navigation,route}) {
             />
           )}
         </View> 
-        <PieChart
-  data={IncomeDataPieChart}
-  width={screenWidth}
-  height={220}
-  chartConfig={chartConfig}
-  accessor="IncomeType"
-  backgroundColor={"transparent"}
-  paddingLeft={"15"}
-  center={[10, 50]}
-  absolute
-/>
         </ScrollView> 
       )
     }
