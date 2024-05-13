@@ -30,7 +30,7 @@ function Income() {
         IncomeRef :multilineText
       };
         
-      axios.post("http://192.168.1.3:5002/income",IncomeData)
+      axios.post("http://192.168.41.40:5002/income",IncomeData)
             .then(res=>{console.log(res.data)
               setText('');
               setCurrency('');
@@ -77,9 +77,9 @@ function Income() {
           selectedValue={selectedOption}
           onValueChange={(itemValue) => setSelectedOption(itemValue)}
         >
-          <Picker.Item label="Option 1" value="option1" />
-          <Picker.Item label="Option 2" value="option2" />
-          <Picker.Item label="Option 3" value="option3" />
+          <Picker.Item label="Monthly Income" value="Monthly Income" />
+          <Picker.Item label="Side Income" value="Side Income" />
+          <Picker.Item label="Other" value="Other" />
         </Picker>
     </View>
     <View style={{ marginVertical: 10 }} />

@@ -17,8 +17,8 @@ const InExMonthly = () => {
 
   const fetchMonthlyData = async () => {
     try {
-      const incomeResponse = await axios.get('http://192.168.1.3:5002/monthlyIncome');
-      const expenseResponse = await axios.get('http://192.168.1.3:5002/monthlyExpense');
+      const incomeResponse = await axios.get('http://192.168.41.40:5002/monthlyIncome');
+      const expenseResponse = await axios.get('http://192.168.41.40:5002/monthlyExpense');
       setIncomes(incomeResponse.data);
       setExpenses(expenseResponse.data);
       setIsLoading(false);
@@ -37,7 +37,7 @@ const InExMonthly = () => {
 
   const handleDelete = async (id, type) => {
     try {
-      await axios.delete(`http://192.168.1.3:5002/${type}/${id}`);
+      await axios.delete(`http://192.168.41.40:5002/${type}/${id}`);
       fetchMonthlyData();
     } catch (error) {
       console.error('Error deleting data:', error);

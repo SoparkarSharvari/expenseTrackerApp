@@ -22,7 +22,7 @@ function UpdateExpense({route}) {
         // Fetch existing income data based on the provided id
         const fetchIncomeData = async () => {
           try {
-            const response = await axios.get(`http://192.168.1.3:5002/expense/${id}`);
+            const response = await axios.get(`http://192.168.41.40:5002/expense/${id}`);
             setExpenseData(response.data);
             console.log(response.data)
           } catch (error) {
@@ -42,7 +42,7 @@ function UpdateExpense({route}) {
 
   const  handleUpdateExpenseData = () => {
     // Send PUT request to update income data
-    axios.put(`http://192.168.1.3:5002/expense/${id}`, {
+    axios.put(`http://192.168.41.40:5002/expense/${id}`, {
         ...ExpenseData,
         ExpenseAmount: parseInt(ExpenseData.ExpenseAmount) // Parse to number
       })

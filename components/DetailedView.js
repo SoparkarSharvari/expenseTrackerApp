@@ -31,7 +31,7 @@ function DetailedView({ navigation,route}) {
       );
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://192.168.1.3:5002/income-details-by-month");
+        const res = await axios.get("http://192.168.41.40:5002/income-details-by-month");
         setIncomeData(res.data);
         console.log(res.data)
       } catch (error) {
@@ -40,7 +40,7 @@ function DetailedView({ navigation,route}) {
     };
     const fetchData2 = async () => {
         try {
-          const res = await axios.get("http://192.168.1.3:5002/expense-details-by-month");
+          const res = await axios.get("http://192.168.41.40:5002/expense-details-by-month");
           setExpenseData(res.data);
           console.log(res.data)
         } catch (error) {
@@ -49,7 +49,7 @@ function DetailedView({ navigation,route}) {
       };
     const fetchData3 = async () =>{
       try{
-        const res = await axios.get("http://192.168.1.3:5002/income");
+        const res = await axios.get("http://192.168.41.40:5002/income");
         // const aggregatedIncomeData = aggregateIncomeByType(res.data);
           setIncomeDataPieChart(res.data);
           console.log(res.data)

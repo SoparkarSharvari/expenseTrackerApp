@@ -29,7 +29,7 @@ function Expense() {
         ExpenseRef :multilineText
       };
         
-      axios.post("http://192.168.1.3:5002/expense",ExpenseData)
+      axios.post("http://192.168.41.40:5002/expense",ExpenseData)
             .then(res=>{console.log(res.data)
               setText('');
               setCurrency('');
@@ -75,9 +75,9 @@ function Expense() {
             selectedValue={selectedOption}
             onValueChange={(itemValue) => setSelectedOption(itemValue)}
           >
-            <Picker.Item label="Option 1" value="option1" />
-            <Picker.Item label="Option 2" value="option2" />
-            <Picker.Item label="Option 3" value="option3" />
+            <Picker.Item label="Home Expense" value="Home Expense" />
+            <Picker.Item label="Personal Expense" value="Personal Expense" />
+            <Picker.Item label="Other" value="Other" />
           </Picker>
       </View>
       <View style={{ marginVertical: 10 }} />

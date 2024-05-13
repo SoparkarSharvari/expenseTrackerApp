@@ -11,7 +11,7 @@ function Dashboard() {
   const [totalExpense, setTotalExpense] = useState('');
 
   async function getTotalIncome(){
-    axios.get("http://192.168.1.3:5002/totalIncome")
+    axios.get("http://192.168.41.40:5002/totalIncome")
           .then(res=>{
             console.log(res.data.totalIncome);
             setTotalIncome(res.data.totalIncome)
@@ -20,7 +20,7 @@ function Dashboard() {
   }
 
   async function getTotalExpense(){
-    axios.get("http://192.168.1.3:5002/totalExpense")
+    axios.get("http://192.168.41.40:5002/totalExpense")
           .then(res=>{
             console.log(res.data.totalExpense);
             setTotalExpense(res.data.totalExpense)
@@ -42,7 +42,7 @@ function Dashboard() {
     <View style={styles.card}>
       <View style={styles.cardDetails}>
       <Text style={styles.name}>{data.name}</Text>
-      <Text style={[styles.total, styles[data.sty]]}>Total: {data.total}</Text>
+      <Text style={[styles.total, styles[data.sty]]}>Total:  ₹ {data.total}</Text>
       </View>
     </View>
   )
